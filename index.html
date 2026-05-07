@@ -1,0 +1,826 @@
+<!--
+==================================================
+株タン式LP - WordPress用コード（高転換構成 v2）
+登録率10%+達成のための構成設計
+==================================================
+【Gemini生成画像スロット一覧】
+①  images/g_hero.png       — 株タン全身・笑顔・ヒーロービジュアル（400×400）
+②  images/g_act1.png       — 給与明細を見て絶望するシーン（400×300）
+③  images/g_act2.png       — チャートを発見して目を輝かせるシーン（400×300）
+④  images/g_act3.png       — 月収1000万達成で喜ぶシーン（400×300）
+⑤  images/g_profile.png    — 株タンプロフィール（400×280）
+⑥  images/g_voice.png      — 受講者の声コマ漫画（400×280）
+⑦  images/g_bonus.png      — 20大特典イメージ（400×220）
+==================================================
+使い方: WordPressの「カスタムHTML」ブロックに全体を貼り付け。
+==================================================
+-->
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== 株タンLP スタイル v2 ===== */
+.kbl{font-family:'Noto Sans JP',sans-serif;background:#EBEBEB;max-width:480px;margin:0 auto;overflow-x:hidden;color:#0D0D0D;padding-bottom:80px}
+.kbl *{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --kbl-blue:#1565C0;--kbl-yellow:#FFD700;--kbl-black:#0D0D0D;
+  --kbl-white:#fff;--kbl-red:#C62828;--kbl-green:#2E7D32;
+}
+
+/* halftone */
+.kbl .ht-blue{background-color:var(--kbl-blue);background-image:radial-gradient(circle,rgba(255,255,255,.25) 1.5px,transparent 1.5px);background-size:14px 14px}
+.kbl .ht-yellow{background-color:var(--kbl-yellow);background-image:radial-gradient(circle,rgba(0,0,0,.12) 1.5px,transparent 1.5px);background-size:14px 14px}
+.kbl .ht-black{background-color:var(--kbl-black);background-image:radial-gradient(circle,rgba(255,255,255,.15) 1.5px,transparent 1.5px);background-size:12px 12px}
+.kbl .ht-white{background:#FAFAFA;background-image:radial-gradient(circle,#C8D6F0 1px,transparent 1px);background-size:16px 16px}
+
+/* SFX */
+.kbl .sfx{font-family:'Dela Gothic One',cursive;color:var(--kbl-yellow);-webkit-text-stroke:3px var(--kbl-black);text-shadow:5px 5px 0 var(--kbl-black);line-height:1;display:block}
+.kbl .sfx-red{color:var(--kbl-red);-webkit-text-stroke:3px var(--kbl-black);text-shadow:4px 4px 0 var(--kbl-black)}
+.kbl .sfx-blue{color:var(--kbl-blue);-webkit-text-stroke:3px var(--kbl-black);text-shadow:4px 4px 0 var(--kbl-black)}
+.kbl .sfx-white{color:var(--kbl-white);-webkit-text-stroke:2px var(--kbl-black);text-shadow:4px 4px 0 rgba(0,0,0,.5)}
+
+/* manga / gemini image */
+.kbl .mg{width:100%;height:280px;display:block;object-fit:cover;object-position:center center;border-top:4px solid var(--kbl-black);border-bottom:4px solid var(--kbl-black)}
+.kbl .mg-tall{height:340px}
+.kbl .mg-short{height:200px}
+.kbl .mg-hero{height:auto;max-height:200px;object-fit:contain;background:var(--kbl-blue)}
+.kbl .mg-profile{height:320px;object-fit:contain;background:#EFF5FF}
+.kbl .mg-voice{height:300px;object-fit:contain;background:#EFF5FF}
+
+
+/* speech bubble */
+.kbl .bubble{background:var(--kbl-white);border:3px solid var(--kbl-black);border-radius:18px;padding:14px 18px;position:relative;box-shadow:4px 4px 0 var(--kbl-black);font-weight:700;font-size:.92rem;line-height:1.6}
+.kbl .bubble::after{content:'';position:absolute;bottom:-20px;left:28px;border:14px solid transparent;border-top:20px solid var(--kbl-black)}
+.kbl .bubble::before{content:'';position:absolute;bottom:-14px;left:31px;border:12px solid transparent;border-top:18px solid var(--kbl-white);z-index:1}
+
+/* section headers */
+.kbl .sec-head{padding:24px 16px;text-align:center;border-top:5px solid var(--kbl-black);border-bottom:5px solid var(--kbl-black)}
+.kbl .sec-label{display:inline-block;padding:3px 14px;font-size:.75rem;font-weight:900;letter-spacing:.12em;border:2px solid var(--kbl-black);margin-bottom:8px}
+.kbl .sec-h2{font-family:'Dela Gothic One',cursive;font-size:1.9rem;line-height:1.15}
+
+/* act header */
+.kbl .act-head{padding:20px 16px;text-align:center;border-top:5px solid var(--kbl-black);border-bottom:5px solid var(--kbl-black)}
+.kbl .act-no{font-family:'Dela Gothic One',cursive;font-size:.85rem;letter-spacing:.2em;display:block;margin-bottom:6px}
+.kbl .act-title{font-family:'Dela Gothic One',cursive;font-size:2rem;line-height:1.1;display:block}
+
+/* panel box */
+.kbl .pbox{border:4px solid var(--kbl-black);box-shadow:6px 6px 0 var(--kbl-black);margin:12px 16px;overflow:hidden;background:var(--kbl-white)}
+
+/* social proof bar */
+.kbl .sp-bar{display:flex;border-top:4px solid var(--kbl-black);border-bottom:4px solid var(--kbl-black)}
+.kbl .sp-item{flex:1;padding:16px 6px;text-align:center;border-right:3px solid var(--kbl-black)}
+.kbl .sp-item:last-child{border-right:none}
+.kbl .sp-num{font-family:'Dela Gothic One',cursive;font-size:1.5rem;color:var(--kbl-blue);display:block;line-height:1;-webkit-text-stroke:1px var(--kbl-black)}
+.kbl .sp-lbl{font-size:.65rem;font-weight:700;color:#555;display:block;margin-top:3px;line-height:1.3}
+
+/* why-free box */
+.kbl .why-free{margin:12px 16px;padding:16px;background:#EFF5FF;border:3px solid var(--kbl-blue);box-shadow:4px 4px 0 var(--kbl-blue)}
+.kbl .why-free h3{font-size:.92rem;font-weight:900;color:var(--kbl-blue);margin-bottom:8px}
+.kbl .why-free p{font-size:.83rem;line-height:1.7}
+
+/* testimonial */
+.kbl .t-head{padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--kbl-black)}
+.kbl .t-avatar{width:54px;height:54px;border-radius:50%;border:3px solid var(--kbl-black);display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',cursive;font-size:1.4rem;flex-shrink:0}
+.kbl .t-meta h3{font-weight:900;font-size:.92rem}
+.kbl .t-meta p{font-size:.78rem;color:#555}
+.kbl .stars{color:#E65100;font-size:1.1rem}
+.kbl .t-body{padding:14px 16px}
+.kbl .t-result{background:var(--kbl-yellow);border:2px solid var(--kbl-black);padding:6px 12px;font-weight:900;font-size:.85rem;display:inline-block;margin-bottom:10px}
+.kbl .t-body p{font-size:.87rem;line-height:1.7}
+
+/* curriculum */
+.kbl .cur-item{margin:10px 16px;border:3px solid var(--kbl-black);box-shadow:5px 5px 0 var(--kbl-black);overflow:hidden}
+.kbl .cur-head{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:3px solid var(--kbl-black)}
+.kbl .cur-num{width:38px;height:38px;border-radius:50%;border:3px solid var(--kbl-black);background:var(--kbl-yellow);display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',cursive;font-size:1.1rem;flex-shrink:0}
+.kbl .cur-head h3{font-weight:900;font-size:.95rem;color:var(--kbl-white);line-height:1.3}
+.kbl .cur-body{padding:12px 14px;background:var(--kbl-white)}
+.kbl .cur-body li{font-size:.83rem;padding-left:18px;position:relative;margin-bottom:5px;list-style:none}
+.kbl .cur-body li::before{content:'▶';position:absolute;left:0;color:var(--kbl-blue);font-size:.72rem;top:2px}
+
+/* benefits */
+.kbl .ben-item{display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-bottom:2px solid #E8E8E8;background:var(--kbl-white)}
+.kbl .ben-num{width:30px;height:30px;border-radius:50%;background:var(--kbl-yellow);border:2px solid var(--kbl-black);display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',cursive;font-size:.85rem;flex-shrink:0;box-shadow:2px 2px 0 var(--kbl-black)}
+.kbl .ben-text h4{font-weight:900;font-size:.87rem;margin-bottom:2px}
+.kbl .ben-text p{font-size:.75rem;color:#555;line-height:1.4}
+
+/* featured bonus */
+.kbl .bonus-card{margin:10px 16px;border:4px solid var(--kbl-black);box-shadow:6px 6px 0 var(--kbl-black);overflow:hidden;background:var(--kbl-white)}
+.kbl .bonus-card-head{background:var(--kbl-blue);padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:3px solid var(--kbl-black)}
+.kbl .bonus-badge{background:var(--kbl-yellow);border:2px solid var(--kbl-black);font-family:'Dela Gothic One',cursive;font-size:.8rem;padding:2px 8px;border-radius:2px;flex-shrink:0}
+.kbl .bonus-card-head h4{color:var(--kbl-white);font-weight:900;font-size:.88rem;line-height:1.3}
+.kbl .bonus-card-body{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.kbl .bonus-card-body p{font-size:.8rem;line-height:1.5;flex:1}
+.kbl .value-tag{background:var(--kbl-red);color:var(--kbl-white);font-family:'Dela Gothic One',cursive;font-size:.78rem;padding:4px 8px;border:2px solid var(--kbl-black);white-space:nowrap;flex-shrink:0;box-shadow:2px 2px 0 var(--kbl-black)}
+
+/* faq */
+.kbl .faq-item{margin:8px 16px;border:3px solid var(--kbl-black);box-shadow:4px 4px 0 var(--kbl-black);overflow:hidden}
+.kbl .faq-q{padding:13px 14px;display:flex;align-items:flex-start;gap:9px;background:var(--kbl-white);cursor:pointer;user-select:none}
+.kbl .faq-qi{width:26px;height:26px;border-radius:50%;background:var(--kbl-blue);color:var(--kbl-white);display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',cursive;font-size:.8rem;flex-shrink:0}
+.kbl .faq-q p{font-weight:700;font-size:.87rem;line-height:1.4;flex:1}
+.kbl .faq-arr{font-size:1rem;transition:transform .3s;flex-shrink:0;margin-top:2px}
+.kbl .faq-item.open .faq-arr{transform:rotate(180deg)}
+.kbl .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.kbl .faq-item.open .faq-a{max-height:300px}
+.kbl .faq-ai{padding:13px 14px;border-top:3px solid var(--kbl-black);display:flex;gap:9px;background:#F0F5FF}
+.kbl .faq-ai-icon{width:26px;height:26px;border-radius:50%;background:var(--kbl-yellow);border:2px solid var(--kbl-black);display:flex;align-items:center;justify-content:center;font-family:'Dela Gothic One',cursive;font-size:.8rem;flex-shrink:0}
+.kbl .faq-ai p{font-size:.85rem;line-height:1.6}
+
+/* countdown */
+.kbl .cd-wrap{display:flex;justify-content:center;gap:6px;padding:20px 12px}
+.kbl .cd-unit{text-align:center;flex:1}
+.kbl .cd-num{display:block;font-family:'Dela Gothic One',cursive;font-size:2.8rem;line-height:1;background:var(--kbl-black);color:var(--kbl-yellow);border:3px solid var(--kbl-yellow);box-shadow:4px 4px 0 var(--kbl-yellow);padding:8px 2px}
+.kbl .cd-label{display:block;font-size:.68rem;font-weight:700;margin-top:4px;color:var(--kbl-white)}
+.kbl .cd-colon{font-family:'Dela Gothic One',cursive;font-size:2.4rem;color:var(--kbl-yellow);padding-top:10px;flex-shrink:0}
+
+/* CTA button */
+.kbl .cta{display:block;width:calc(100% - 32px);margin:12px 16px;padding:18px 20px;background:var(--kbl-red);color:var(--kbl-white);text-align:center;font-family:'Dela Gothic One',cursive;font-size:1.2rem;border:4px solid var(--kbl-black);box-shadow:6px 6px 0 var(--kbl-black);cursor:pointer;text-decoration:none;line-height:1.3;transition:transform .1s,box-shadow .1s}
+.kbl .cta:active,.kbl .cta:focus{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--kbl-black)}
+.kbl .cta-sub{font-size:.78rem;font-family:'Noto Sans JP',sans-serif;font-weight:400;display:block;margin-top:5px}
+.kbl .cta-yellow{background:var(--kbl-yellow);color:var(--kbl-black)}
+
+/* problem list */
+.kbl .prob-list{list-style:none;padding:10px 16px}
+.kbl .prob-list li{padding:9px 12px;border-left:5px solid var(--kbl-red);background:#FFF5F5;margin-bottom:7px;font-weight:700;font-size:.87rem;box-shadow:3px 3px 0 #FFB0B0}
+.kbl .prob-list li::before{content:'✗ ';color:var(--kbl-red)}
+
+/* highlight box */
+.kbl .hl-box{margin:10px 16px;padding:14px 16px;border:3px solid var(--kbl-black);background:var(--kbl-yellow);box-shadow:5px 5px 0 var(--kbl-black)}
+.kbl .hl-box p{font-weight:700;font-size:.88rem;line-height:1.6}
+
+/* profile stats */
+.kbl .pstats{display:grid;grid-template-columns:1fr 1fr}
+.kbl .pstat{padding:13px 10px;text-align:center;border-right:2px solid #E0E0E0;border-bottom:2px solid #E0E0E0}
+.kbl .pstat:nth-child(even){border-right:none}
+.kbl .pstat-num{font-family:'Dela Gothic One',cursive;font-size:1.4rem;color:var(--kbl-blue);display:block;line-height:1}
+.kbl .pstat-lbl{font-size:.7rem;color:#555;display:block;margin-top:3px}
+
+/* email form */
+.kbl .form-wrap{background:var(--kbl-yellow);border:4px solid var(--kbl-black);box-shadow:8px 8px 0 var(--kbl-black);margin:12px 16px;overflow:hidden}
+.kbl .form-head{background:var(--kbl-black);padding:14px 16px;text-align:center}
+.kbl .form-head p{font-family:'Dela Gothic One',cursive;font-size:1rem;color:var(--kbl-yellow)}
+.kbl .form-body{padding:20px 16px}
+.kbl .form-input{width:100%;padding:14px 16px;border:3px solid var(--kbl-black);font-size:.95rem;font-family:'Noto Sans JP',sans-serif;margin-bottom:12px;display:block;box-shadow:3px 3px 0 var(--kbl-black);background:var(--kbl-white);-webkit-appearance:none;appearance:none}
+.kbl .form-input:focus{outline:none;border-color:var(--kbl-blue);box-shadow:3px 3px 0 var(--kbl-blue)}
+.kbl .form-btn{width:100%;padding:18px;background:var(--kbl-red);color:var(--kbl-white);font-family:'Dela Gothic One',cursive;font-size:1.15rem;border:4px solid var(--kbl-black);box-shadow:5px 5px 0 var(--kbl-black);cursor:pointer;transition:transform .1s,box-shadow .1s;line-height:1.3;-webkit-appearance:none;appearance:none}
+.kbl .form-btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--kbl-black)}
+.kbl .form-note{font-size:.75rem;text-align:center;margin-top:12px;color:#333;line-height:1.7}
+.kbl .form-success{display:none;background:var(--kbl-blue);color:var(--kbl-white);padding:20px;text-align:center;border:3px solid var(--kbl-black);font-weight:700;font-size:.95rem;line-height:1.7}
+
+/* trust badges */
+.kbl .trust-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:14px 16px}
+.kbl .trust-badge{background:var(--kbl-white);border:2px solid var(--kbl-black);padding:5px 10px;font-size:.73rem;font-weight:700;box-shadow:2px 2px 0 var(--kbl-black);display:flex;align-items:center;gap:4px}
+
+/* sticky cta */
+.kbl-sticky{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:9999;padding:10px 16px;background:rgba(13,13,13,.95);border-top:3px solid var(--kbl-yellow);display:none}
+.kbl-sticky a{display:block;padding:14px;background:var(--kbl-red);color:var(--kbl-white);text-align:center;font-family:'Dela Gothic One',cursive;font-size:1rem;border:3px solid var(--kbl-yellow);text-decoration:none}
+
+/* ribbon */
+.kbl .ribbon{background:var(--kbl-red);color:var(--kbl-white);font-weight:900;font-size:.82rem;padding:6px 0;text-align:center;letter-spacing:.08em}
+
+/* story narration block */
+.kbl .story-box{background:var(--kbl-black);padding:18px 16px;text-align:center;border-bottom:4px solid var(--kbl-black)}
+.kbl .story-box p{color:var(--kbl-white);font-size:.88rem;line-height:1.9}
+.kbl .story-box em{color:var(--kbl-yellow);font-style:normal;font-weight:900}
+
+/* result box */
+.kbl .result-box{margin:14px 16px;padding:18px 16px;background:var(--kbl-white);border:4px solid var(--kbl-yellow);box-shadow:6px 6px 0 var(--kbl-yellow);text-align:center}
+.kbl .result-box .big{font-family:'Dela Gothic One',cursive;font-size:2.2rem;color:var(--kbl-blue);display:block;-webkit-text-stroke:1px var(--kbl-black);line-height:1.1}
+.kbl .result-box .sub{font-size:.83rem;font-weight:700;margin-top:6px;display:block}
+
+/* bonus list compact */
+.kbl .bonus-list{list-style:none;padding:0 16px 16px}
+.kbl .bonus-list li{padding:7px 10px;border-left:4px solid var(--kbl-blue);background:var(--kbl-white);margin-bottom:6px;font-size:.82rem;font-weight:700}
+.kbl .bonus-list li::before{content:'✓ ';color:var(--kbl-green);font-weight:900}
+</style>
+
+<!-- ===== LP WRAPPER ===== -->
+<div class="kbl">
+
+<!-- ===== RIBBON ===== -->
+<div class="ribbon">🎁 期間限定！20大特典を<strong>無料</strong>でプレゼント中 残り <span id="r-days">7</span> 日</div>
+
+<!-- ===== 【SECTION 1】HERO ===== -->
+<section class="ht-blue">
+  <div style="padding:20px 16px 0;text-align:center">
+    <span class="sfx sfx-white" style="font-size:.85rem;letter-spacing:.2em;-webkit-text-stroke:1px var(--kbl-black);margin-bottom:8px">株タン式 チャート分析 完全ロードマップ</span>
+    <div style="background:var(--kbl-yellow);border:5px solid var(--kbl-black);box-shadow:8px 8px 0 var(--kbl-black);padding:16px 14px;margin-bottom:12px">
+      <h1 style="font-family:'Dela Gothic One',cursive;font-size:1.85rem;line-height:1.15;margin-bottom:8px">
+        チャートの法則を<br>知れば<br><span style="color:var(--kbl-red)">株式投資の</span><br><span style="color:var(--kbl-red)">見え方が変わる</span>
+      </h1>
+      <p style="font-size:.82rem;font-weight:700;line-height:1.6;color:#333">「<strong>なぜ負けるのか</strong>」がわかるチャート分析法を<br><strong style="color:var(--kbl-red)">今すぐ無料で受け取れます</strong></p>
+    </div>
+    <!-- ★ CTA ファーストビュー内に配置 ★ -->
+    <div style="padding:0 0 16px">
+      <a href="#cta" class="cta" style="font-size:1.05rem;margin:0">
+        🎁 20大特典を今すぐ無料で受け取る
+        <span class="cta-sub">↓ メールアドレスだけ・完全無料 ↓</span>
+      </a>
+      <div class="trust-row" style="padding:6px 0 0">
+        <span class="trust-badge">✅ 完全無料</span>
+        <span class="trust-badge">✅ 1分で完了</span>
+        <span class="trust-badge">✅ いつでも解除OK</span>
+      </div>
+    </div>
+  </div>
+  <!-- 画像はCTAの下（スクロール後に表示） -->
+  <img src="images/g_hero.png" alt="株タン" class="mg mg-hero">
+</section>
+
+<!-- ===== 【SECTION 2】SOCIAL PROOF BAR ===== -->
+<section class="ht-yellow" style="border-top:5px solid var(--kbl-black);border-bottom:5px solid var(--kbl-black)">
+  <div class="sp-bar">
+    <div class="sp-item">
+      <span class="sp-num">7年+</span>
+      <span class="sp-lbl">現役投資家<br>実践歴</span>
+    </div>
+    <div class="sp-item">
+      <span class="sp-num">3,200+</span>
+      <span class="sp-lbl">登録者<br>突破</span>
+    </div>
+    <div class="sp-item">
+      <span class="sp-num">96%</span>
+      <span class="sp-lbl">受講生<br>満足度</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 【SECTION 3】PROBLEM HOOK ===== -->
+<section class="ht-white">
+  <div style="padding:28px 16px 14px;text-align:center">
+    <span class="sfx sfx-red sfx" style="font-size:1.4rem">こんな悩みありませんか？</span>
+    <p style="font-size:.83rem;font-weight:700;margin-top:10px;color:#555">（1つでも当てはまるなら必ず読んでください）</p>
+  </div>
+  <ul class="prob-list">
+    <li>買った瞬間になぜか株価が下がる…</li>
+    <li>損切りできず含み損がどんどん膨らむ</li>
+    <li>SNSの情報を信じて大損した経験がある</li>
+    <li>チャートを見ても何もわからない</li>
+    <li>いつ買っていつ売ればいいか全然わからない</li>
+    <li>他のスクールを試したが一切成果が出なかった</li>
+  </ul>
+  <div class="hl-box">
+    <p style="text-align:center;font-size:.95rem">
+      ✋ <strong>それ全部、「チャートの法則」を知らないだけです。</strong><br>
+      正しい読み方を身につければ、勝ちパターンが見えてきます。
+    </p>
+  </div>
+  <!-- 無料で学べる内容の予告 -->
+  <div style="margin:0 16px 12px;padding:14px 16px;background:var(--kbl-white);border:3px solid var(--kbl-blue);box-shadow:4px 4px 0 var(--kbl-blue)">
+    <p style="font-size:.82rem;font-weight:900;color:var(--kbl-blue);margin-bottom:8px">📋 この無料特典を受け取ると分かること：</p>
+    <ul style="list-style:none;padding:0">
+      <li style="font-size:.8rem;padding:4px 0 4px 18px;position:relative;border-bottom:1px solid #eee">
+        <span style="position:absolute;left:0;color:var(--kbl-blue)">▶</span>「買った瞬間に下がる」の本当の理由
+      </li>
+      <li style="font-size:.8rem;padding:4px 0 4px 18px;position:relative;border-bottom:1px solid #eee">
+        <span style="position:absolute;left:0;color:var(--kbl-blue)">▶</span>損切りを迷わずできる思考の作り方
+      </li>
+      <li style="font-size:.8rem;padding:4px 0 4px 18px;position:relative;border-bottom:1px solid #eee">
+        <span style="position:absolute;left:0;color:var(--kbl-blue)">▶</span>チャートで「仕掛けポイント」を自分で見つける方法
+      </li>
+      <li style="font-size:.8rem;padding:4px 0 4px 18px;position:relative">
+        <span style="position:absolute;left:0;color:var(--kbl-blue)">▶</span>3割負けても資産が増える資金管理の考え方
+      </li>
+    </ul>
+  </div>
+  <p style="text-align:center;font-size:.8rem;font-weight:700;padding:4px 16px 4px;color:#555">↓ まずは株タンの話を聞いてください ↓</p>
+</section>
+
+<!-- ===== 【SECTION 4】STORY ===== -->
+
+<!-- ACT1: 絶望 -->
+<section>
+  <div class="act-head ht-black">
+    <span class="act-no" style="color:var(--kbl-yellow)">ACT 1</span>
+    <span class="act-title sfx-white sfx" style="font-size:1.85rem">どん底からの<br>スタート</span>
+  </div>
+
+  <img src="images/g_act1.png" alt="給与明細に絶望する株タン" class="mg">
+
+  <div class="story-box">
+    <p>お金がないのが当たり前の環境で育った。<br>バイトを掛け持ちしても手元に残るのはわずか。<br><em>月収17万円。</em><br>夢も希望もなく、ただ時間だけが過ぎていた…</p>
+  </div>
+
+  <div class="ht-yellow" style="padding:20px 16px;text-align:center;border-bottom:4px solid var(--kbl-black)">
+    <span class="sfx sfx-red" style="font-size:2.5rem;margin-bottom:12px">絶望！！</span>
+    <div class="bubble">「このまま一生お金に縛られて生きるのか…？<br>なんとかしなければいけない」</div>
+  </div>
+</section>
+
+<!-- ACT2: 発見 -->
+<section>
+  <div class="act-head ht-blue">
+    <span class="act-no" style="color:var(--kbl-yellow)">ACT 2</span>
+    <span class="act-title sfx-white sfx" style="font-size:1.85rem">チャートとの<br>運命の出会い</span>
+  </div>
+
+  <img src="images/g_act2.png" alt="チャートを発見した株タン" class="mg">
+
+  <div class="story-box">
+    <p>26歳のある日、ふと手にした株のチャート。<br>眺めていると<em>あることに気づいた。</em><br>「これ…動きに法則がある！」<br>毎日何時間もチャートを研究し続けた。<br>週末も、深夜も、休まず学び続けた。</p>
+  </div>
+
+  <div style="background:#EFF5FF;padding:20px 16px;text-align:center;border-top:4px solid var(--kbl-black);border-bottom:4px solid var(--kbl-black)">
+    <span class="sfx sfx-blue" style="font-size:3rem;margin-bottom:12px">発見！！</span>
+    <div class="bubble">「チャートには法則がある。<br>正しく読めれば、必ず勝てる！」</div>
+  </div>
+</section>
+
+<!-- ACT3: 成功 -->
+<section>
+  <div class="act-head ht-yellow" style="border-top:5px solid var(--kbl-black);border-bottom:5px solid var(--kbl-black)">
+    <span class="act-no">ACT 3</span>
+    <span class="act-title sfx" style="font-size:1.85rem">チャートで掴んだ<br>完全自由な人生</span>
+  </div>
+
+  <img src="images/g_act3.png" alt="達成で喜ぶ株タン" class="mg">
+
+  <div class="result-box">
+    <span class="big">7年間で経済的自由を実現</span>
+    <span class="sub">チャート分析一本で資産を積み上げた実体験をすべて公開</span>
+    <span class="sub" style="color:var(--kbl-blue);font-weight:900">→ 33歳でセミリタイア・マレーシア移住</span>
+  </div>
+
+  <div class="ht-blue" style="padding:20px 16px;text-align:center;border-bottom:5px solid var(--kbl-black)">
+    <span class="sfx" style="font-size:3rem;margin-bottom:10px">やったぜ！！</span>
+    <p style="color:var(--kbl-yellow);font-weight:700;font-size:.9rem;line-height:1.7">この「株タン式チャート手法」を<br>あなたに無料でプレゼントします</p>
+  </div>
+</section>
+
+<!-- ===== 【SECTION 5】MID CTA（1回目のフォーム誘導）===== -->
+<section style="background:var(--kbl-black);padding:28px 0;border-top:5px solid var(--kbl-yellow);border-bottom:5px solid var(--kbl-yellow)">
+  <div style="text-align:center;padding:0 16px 16px">
+    <span class="sfx" style="font-size:1.8rem;margin-bottom:10px">今すぐ手に入れろ！</span>
+    <p style="color:var(--kbl-white);font-size:.88rem;line-height:1.8">「なぜ負けるのか」を理解し<br>「勝ちパターン」を自分で見つける。<br>そのために必要な知識を<br><strong style="color:var(--kbl-yellow);font-size:1rem">20大特典として今すぐ無料でお届け</strong></p>
+  </div>
+  <a href="#cta" class="cta cta-yellow">
+    🎁 20大特典を無料で受け取る
+    <span class="cta-sub" style="color:#333">↓ メール登録するだけ・完全無料 ↓</span>
+  </a>
+</section>
+
+<!-- ===== 【SECTION 6】PROFILE ===== -->
+<section>
+  <div class="sec-head ht-yellow">
+    <span class="sec-label" style="background:var(--kbl-black);color:var(--kbl-yellow)">PROFILE</span>
+    <h2 class="sec-h2">講師紹介</h2>
+  </div>
+
+  <img src="images/g_profile.png" alt="株タンプロフィール" class="mg mg-profile">
+
+  <div class="pbox">
+    <div class="ht-blue" style="padding:18px 16px;text-align:center;border-bottom:4px solid var(--kbl-black)">
+      <span style="font-family:'Dela Gothic One',cursive;font-size:2.2rem;color:var(--kbl-white);-webkit-text-stroke:2px var(--kbl-black);display:block">株タン</span>
+      <p style="color:var(--kbl-yellow);font-weight:700;font-size:.85rem">株式投資教育者 / チャートアナリスト</p>
+    </div>
+    <div class="pstats">
+      <div class="pstat"><span class="pstat-num">7年+</span><span class="pstat-lbl">チャート<br>研究歴</span></div>
+      <div class="pstat"><span class="pstat-num">3,200+</span><span class="pstat-lbl">コンテンツ<br>登録者数</span></div>
+      <div class="pstat"><span class="pstat-num">20+</span><span class="pstat-lbl">学習<br>コンテンツ数</span></div>
+      <div class="pstat"><span class="pstat-num">33歳</span><span class="pstat-lbl">マレーシア<br>移住</span></div>
+    </div>
+    <div style="padding:16px">
+      <p style="font-size:.87rem;line-height:1.9">26歳から独自のチャート分析研究を開始。テクニカル分析の体系化に7年を費やし、「なぜ負けるのか」が見えるチャート分析法を確立。33歳でマレーシアへ移住し、現地から株式投資の教育コンテンツを配信中。「正しい知識があれば投資への向き合い方は変わる」という信念のもと、初心者でも根拠を持って判断できる体系的な学習教材を提供している。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 【SECTION 7】WHY FREE（なぜ無料？） ===== -->
+<section class="ht-white">
+  <div style="padding:22px 16px 8px;text-align:center">
+    <span class="sfx sfx-blue" style="font-size:1.4rem">なぜ無料なの？</span>
+  </div>
+  <div class="why-free">
+    <h3>🤔 「なぜ無料なんですか？」という疑問にお答えします</h3>
+    <p>株タン自身も、かつては「お金を払って学んだのに成果が出ない」という経験をしました。だからこそ、<strong>「まず本物の内容を体験してほしい」</strong>という考えから、完全無料での公開を決めました。<br><br>高額セミナーの前に、内容を自分の目で確かめてください。<strong>納得できたら先へ進む、合わなければすぐ解除</strong>、それだけです。<br><br>登録後にしつこい営業は一切しません。クレジットカードの入力も不要です。</p>
+  </div>
+</section>
+
+<!-- ===== 【SECTION 8】TESTIMONIALS ===== -->
+<section>
+  <div class="sec-head ht-blue">
+    <span class="sec-label" style="background:var(--kbl-yellow);color:var(--kbl-black)">VOICE</span>
+    <h2 class="sec-h2" style="color:var(--kbl-white);-webkit-text-stroke:2px var(--kbl-black)">受講者の声</h2>
+    <p style="color:var(--kbl-yellow);font-weight:700;font-size:.82rem;margin-top:6px">※全て実際の受講生の声です</p>
+  </div>
+
+  <img src="images/g_voice.png" alt="受講者の声" class="mg mg-voice">
+
+  <div class="pbox">
+    <div class="t-head ht-yellow">
+      <div class="t-avatar">A</div>
+      <div class="t-meta">
+        <h3>Aさん（38歳・主婦）</h3>
+        <p>投資歴ゼロ → 専業投資家へ</p>
+        <div class="stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="t-body">
+      <span class="t-result">📈 3ヶ月でトレードスキルが大きく向上！※個人の体験</span>
+      <p>ローソク足すら読めなかった私が、株タン式の損切りルールを学んでから「含み損を抱えて塩漬け」がなくなりました。以前との違いが大きくて正直驚いています。特典の内容だけで投資への向き合い方が変わりました。</p>
+    </div>
+  </div>
+
+  <div class="pbox">
+    <div class="t-head" style="background:#E8F4FF">
+      <div class="t-avatar" style="background:var(--kbl-blue);color:var(--kbl-white)">B</div>
+      <div class="t-meta">
+        <h3>Bさん（45歳・会社員）</h3>
+        <p>含み損100万→完全脱出</p>
+        <div class="stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="t-body">
+      <span class="t-result">📊 エントリー精度が大幅に改善！※個人の体験</span>
+      <p>以前は適当に銘柄を選んで損ばかり。株タン式のローソク足とMAの使い方を学んでから、エントリーの精度が格段に上がりました。これだけで投資が変わります。</p>
+    </div>
+  </div>
+
+  <div class="pbox">
+    <div class="t-head ht-yellow">
+      <div class="t-avatar">C</div>
+      <div class="t-meta">
+        <h3>Cさん（27歳・フリーランス）</h3>
+        <p>完全初心者からスタート</p>
+        <div class="stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="t-body">
+      <span class="t-result">💰 6ヶ月で手法を習得し収益化に成功！※個人の体験</span>
+      <p>チャートの用語すら知らない状態でしたが、特典の内容が体系的でスムーズに学べました。以前は「なんとなく」で買っていたのが、根拠を持ってエントリーを判断できるようになったのが一番の変化です。</p>
+    </div>
+  </div>
+
+  <!-- 2回目のCTA誘導 -->
+  <div style="background:#FFF8E0;border-top:4px solid var(--kbl-black);border-bottom:4px solid var(--kbl-black);padding:18px 16px;text-align:center;margin-top:12px">
+    <p style="font-weight:900;font-size:.9rem;margin-bottom:12px">チャートの見え方が変われば、投資への向き合い方も変わります</p>
+    <a href="#cta" class="cta" style="margin:0">
+      🎁 無料で20大特典を受け取る
+      <span class="cta-sub">↓ 登録は1分・完全無料 ↓</span>
+    </a>
+  </div>
+</section>
+
+<!-- ===== 【SECTION 9】20大特典 ===== -->
+<section>
+  <div class="sec-head ht-yellow">
+    <span class="sec-label" style="background:var(--kbl-black);color:var(--kbl-yellow)">SPECIAL BONUS</span>
+    <h2 class="sec-h2">今だけ！20大特典</h2>
+    <p style="font-weight:700;color:var(--kbl-red);font-size:.88rem;margin-top:6px">登録者限定・全て<strong>完全無料</strong>プレゼント！</p>
+  </div>
+
+  <img src="images/g_bonus.png" alt="20大特典イメージ" class="mg">
+
+  <!-- 注目TOP5 フィーチャード特典 -->
+  <div style="padding:4px 0 8px">
+    <div style="background:var(--kbl-black);padding:8px 14px;margin:12px 16px 6px;text-align:center">
+      <p style="color:var(--kbl-yellow);font-family:'Dela Gothic One',cursive;font-size:.9rem">⭐ 特に人気の5大特典 ⭐</p>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-card-head">
+        <span class="bonus-badge">特典1</span>
+        <h4>【株タン式チャートの法則】初心者でも実践できるエントリー精度向上の7ステップ</h4>
+      </div>
+      <div class="bonus-card-body">
+        <p>勝てる投資家が必ず実践している7つのステップを完全公開</p>
+        <span class="value-tag">通常¥19,800</span>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-card-head">
+        <span class="bonus-badge">特典2</span>
+        <h4>『株タンの実トレード全公開』売買タイミングを実例で徹底解説！</h4>
+      </div>
+      <div class="bonus-card-body">
+        <p>実際の売買記録をもとに「どこで買ってどこで売ったか」を解説</p>
+        <span class="value-tag">通常¥14,800</span>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-card-head">
+        <span class="bonus-badge">特典4</span>
+        <h4>【図解】株タンが3割負けても儲かる秘訣</h4>
+      </div>
+      <div class="bonus-card-body">
+        <p>負けを最小にしながら資産を増やす秘密の資金管理法を図解公開</p>
+        <span class="value-tag">通常¥9,800</span>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-card-head" style="background:var(--kbl-red)">
+        <span class="bonus-badge">特典17</span>
+        <h4>《超重要》プロが見ている「負けやすいポイント」完全公開</h4>
+      </div>
+      <div class="bonus-card-body">
+        <p>これを知るだけで勝率が劇的に変わる、最重要コンテンツ</p>
+        <span class="value-tag">通常¥24,800</span>
+      </div>
+    </div>
+
+    <div class="bonus-card">
+      <div class="bonus-card-head" style="background:var(--kbl-red)">
+        <span class="bonus-badge">特典19</span>
+        <h4>《重要》負けやすいポイントを全排除する「銘柄選び」とは？</h4>
+      </div>
+      <div class="bonus-card-body">
+        <p>リスクの高い銘柄を最初から除外する選定ロジックを公開</p>
+        <span class="value-tag">通常¥19,800</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 残り15特典リスト -->
+  <div style="background:var(--kbl-black);padding:8px 14px;margin:12px 16px 6px;text-align:center">
+    <p style="color:var(--kbl-white);font-size:.85rem;font-weight:700">さらに！これだけの特典が全部ついてくる</p>
+  </div>
+  <ul class="bonus-list">
+    <li>特典3：人を指導して発見した3か月で株で勝つための練習方法</li>
+    <li>特典5：移動平均線の真髄 ─ 勝率爆上げの本当の使い方</li>
+    <li>特典6：年商10億円社長の教え ─ 株以外の有望投資先とは？</li>
+    <li>特典7：株の売買で勝つために使用する道具とは？</li>
+    <li>特典8：道具の見方・使い方完全公開</li>
+    <li>特典9：勝つための銘柄の選定方法とは？</li>
+    <li>特典10：買いポジション・空売りの考え方</li>
+    <li>特典11：売買可能な銘柄の条件とは？</li>
+    <li>特典12：勝っている投資家が使っている資金管理とは？</li>
+    <li>特典13：勝つためのエントリーポイントの基本とは？</li>
+    <li>特典14：プロが見ている利益確定のポイントとは？</li>
+    <li>特典15：投資で勝つために必要な考え方とは？</li>
+    <li>特典16：空売り・逆に動いた時の対処法とは？</li>
+    <li>特典18：プロが見ている「勝ちやすいポイント」完全公開</li>
+    <li>特典20：練習通りのトレードで利益を増やす秘密とは？</li>
+  </ul>
+
+  <div style="background:var(--kbl-yellow);border:4px solid var(--kbl-black);box-shadow:6px 6px 0 var(--kbl-black);margin:12px 16px;padding:16px;text-align:center">
+    <p style="font-family:'Dela Gothic One',cursive;font-size:1.1rem;margin-bottom:4px">合計価格換算</p>
+    <p style="font-size:1.9rem;font-weight:900;text-decoration:line-through;color:#777">¥198,000+</p>
+    <p style="font-family:'Dela Gothic One',cursive;font-size:2.2rem;color:var(--kbl-red)">→ 今だけ 完全無料</p>
+  </div>
+</section>
+
+<!-- ===== 【SECTION 10】CURRICULUM ===== -->
+<section>
+  <div class="sec-head ht-black">
+    <span class="sec-label" style="background:var(--kbl-yellow);color:var(--kbl-black)">CURRICULUM</span>
+    <h2 class="sec-h2" style="color:var(--kbl-white);-webkit-text-stroke:2px var(--kbl-black)">カリキュラム</h2>
+    <p style="color:#CCC;font-size:.82rem;margin-top:6px">全5ステージで完全習得</p>
+  </div>
+  <div style="padding:8px 0 16px">
+    <div class="cur-item">
+      <div class="cur-head ht-blue"><div class="cur-num">1</div><h3>【基礎編】株式市場のしくみを完全理解</h3></div>
+      <div class="cur-body"><ul>
+        <li>株価が動く本当の理由</li>
+        <li>市場参加者の心理を読む</li>
+        <li>証券会社・口座の選び方</li>
+        <li>初心者が絶対やってはいけないこと</li>
+      </ul></div>
+    </div>
+    <div class="cur-item">
+      <div class="cur-head" style="background:var(--kbl-blue);border-bottom:3px solid var(--kbl-black)"><div class="cur-num">2</div><h3>【チャート編】テクニカル分析の完全習得</h3></div>
+      <div class="cur-body"><ul>
+        <li>ローソク足の読み方マスター講座</li>
+        <li>移動平均線・ゴールデンクロス活用法</li>
+        <li>RSI・MACD・ボリンジャーバンド</li>
+        <li>トレンド転換サインの見極め方</li>
+      </ul></div>
+    </div>
+    <div class="cur-item">
+      <div class="cur-head ht-black"><div class="cur-num">3</div><h3>【銘柄選定編】勝ち株の発見方法</h3></div>
+      <div class="cur-body"><ul>
+        <li>株タン式スクリーニング手法</li>
+        <li>決算前後の動き方・立ち回り術</li>
+        <li>テーマ株・材料株の狙い方</li>
+        <li>優待株・高配当株の活用法</li>
+      </ul></div>
+    </div>
+    <div class="cur-item">
+      <div class="cur-head ht-blue"><div class="cur-num">4</div><h3>【リスク管理編】損切りと資金管理の極意</h3></div>
+      <div class="cur-body"><ul>
+        <li>絶対に守るべき損切りルール</li>
+        <li>資金配分・ポジション管理の極意</li>
+        <li>ナンピンの正しい使い方</li>
+        <li>メンタル管理でトレード精度を上げる</li>
+      </ul></div>
+    </div>
+    <div class="cur-item">
+      <div class="cur-head ht-black"><div class="cur-num">5</div><h3>【実践編】リアルトレード演習</h3></div>
+      <div class="cur-body"><ul>
+        <li>株タンによるリアルトレード解説</li>
+        <li>過去チャートを使った実践トレーニング</li>
+        <li>受講生ポートフォリオのリアルレビュー</li>
+        <li>スキャル/スウィング対応戦略</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 【SECTION 11】FAQ ===== -->
+<section>
+  <div class="sec-head ht-blue">
+    <span class="sec-label" style="background:var(--kbl-yellow);color:var(--kbl-black)">FAQ</span>
+    <h2 class="sec-h2" style="color:var(--kbl-white);-webkit-text-stroke:2px var(--kbl-black)">よくある質問</h2>
+  </div>
+  <div style="padding:8px 0 16px">
+
+    <div class="faq-item" onclick="kblToggleFaq(this)">
+      <div class="faq-q"><div class="faq-qi">Q</div><p>本当に無料ですか？後から費用は発生しますか？</p><span class="faq-arr">▼</span></div>
+      <div class="faq-a"><div class="faq-ai"><div class="faq-ai-icon">A</div><p>20大特典の受け取りは完全無料です。クレジットカード情報の入力も一切不要。メールアドレスを登録するだけでお受け取りいただけます。いつでも配信停止ができます。</p></div></div>
+    </div>
+
+    <div class="faq-item" onclick="kblToggleFaq(this)">
+      <div class="faq-q"><div class="faq-qi">Q</div><p>投資初心者でも大丈夫ですか？</p><span class="faq-arr">▼</span></div>
+      <div class="faq-a"><div class="faq-ai"><div class="faq-ai-icon">A</div><p>むしろ初心者の方にこそおすすめです。変な癖がついていない分、吸収が早いです。基礎から順番に学べる内容になっています。</p></div></div>
+    </div>
+
+    <div class="faq-item" onclick="kblToggleFaq(this)">
+      <div class="faq-q"><div class="faq-qi">Q</div><p>登録後にしつこい営業メールは来ますか？</p><span class="faq-arr">▼</span></div>
+      <div class="faq-a"><div class="faq-ai"><div class="faq-ai-icon">A</div><p>営業メールは送りません。有益な投資情報のみをお届けします。不要な場合はメール下部のリンクから1クリックで解除できます。</p></div></div>
+    </div>
+
+    <div class="faq-item" onclick="kblToggleFaq(this)">
+      <div class="faq-q"><div class="faq-qi">Q</div><p>どのくらいの投資資金が必要ですか？</p><span class="faq-arr">▼</span></div>
+      <div class="faq-a"><div class="faq-ai"><div class="faq-ai-icon">A</div><p>10〜30万円程度から始めることができます。まずは少額で手法をしっかり体得することが大切です。</p></div></div>
+    </div>
+
+    <div class="faq-item" onclick="kblToggleFaq(this)">
+      <div class="faq-q"><div class="faq-qi">Q</div><p>利益が出ることは保証されますか？</p><span class="faq-arr">▼</span></div>
+      <div class="faq-a"><div class="faq-ai"><div class="faq-ai-icon">A</div><p>投資の結果は保証できません（法律上も禁止）。ただし正しい知識・手法・リスク管理を身につけることで、長期的に勝てる確率を大きく高めることができます。</p></div></div>
+    </div>
+
+    <div class="faq-item" onclick="kblToggleFaq(this)">
+      <div class="faq-q"><div class="faq-qi">Q</div><p>スマホだけでも学べますか？</p><span class="faq-arr">▼</span></div>
+      <div class="faq-a"><div class="faq-ai"><div class="faq-ai-icon">A</div><p>はい、スマートフォンのみで全コンテンツにアクセスできます。通勤・休憩時間など隙間時間を活用して学習できます。</p></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== 【SECTION 12】FINAL CTA（2回目のフォーム）===== -->
+<section id="cta">
+  <div class="ht-black" style="padding:30px 16px;border-top:6px solid var(--kbl-yellow)">
+    <div style="text-align:center;margin-bottom:14px">
+      <span class="sfx" style="font-size:1.3rem;margin-bottom:6px">無料登録の締め切りまで</span>
+      <span style="color:#AAA;font-size:.82rem;font-weight:700;display:block">期間限定！この機会をお見逃しなく</span>
+    </div>
+    <div class="cd-wrap">
+      <div class="cd-unit"><span class="cd-num" id="cd-days">07</span><span class="cd-label">日</span></div>
+      <span class="cd-colon">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">時間</span></div>
+      <span class="cd-colon">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">分</span></div>
+      <span class="cd-colon">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">秒</span></div>
+    </div>
+    <!-- 特典ダイジェスト -->
+    <div style="background:rgba(255,215,0,.08);border:2px solid rgba(255,215,0,.3);padding:12px 14px;margin:10px 0">
+      <p style="color:var(--kbl-yellow);font-size:.8rem;font-weight:700;line-height:1.8;text-align:center">
+        ✅ 【株タン式チャートの法則】7ステップ<br>
+        ✅ 実トレード売買タイミング実例<br>
+        ✅ プロが見る負けポイント完全公開<br>
+        ✅ 移動平均線の真髄<br>
+        <strong style="font-size:.88rem">＋ 計20大特典 全て無料</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- EMAIL FORM -->
+  <div class="ht-yellow" style="padding:24px 16px;border-top:5px solid var(--kbl-black)">
+    <div style="text-align:center;margin-bottom:16px">
+      <span class="sfx sfx-red" style="font-size:1.9rem;margin-bottom:6px">今すぐ無料で受け取る！</span>
+      <p style="font-size:.83rem;font-weight:700">すでに 3,200名以上 が受け取り済み</p>
+      <p style="font-size:.78rem;color:#555;margin-top:4px">↓ メールアドレスを入力するだけ・30秒で完了 ↓</p>
+    </div>
+
+    <div class="form-wrap">
+      <div class="form-head">
+        <p>🎁 20大特典 無料プレゼント登録</p>
+      </div>
+      <div class="form-body">
+        <form id="kbl-reg-form" onsubmit="kblFormSubmit(event)" novalidate>
+          <input type="email" name="email" id="kbl-email" placeholder="メールアドレスを入力" required class="form-input" autocomplete="email">
+          <button type="submit" class="form-btn">✨ チャート投資の全手法を今すぐ無料で受け取る ✨</button>
+          <p class="form-note">✅ 完全無料&nbsp;&nbsp;✅ いつでも解除可能<br>✅ スパムメールは送りません&nbsp;&nbsp;✅ 1分で完了</p>
+        </form>
+        <div class="form-success" id="kbl-success">
+          <p style="font-size:1.1rem;margin-bottom:8px">🎉 登録ありがとうございます！</p>
+          <p>ご登録のメールアドレスに<br>20大特典のご案内をお送りします。<br>（数分以内に届きます）</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust badges -->
+    <div class="trust-row" style="margin-top:12px">
+      <span class="trust-badge">🔒 SSL暗号化</span>
+      <span class="trust-badge">📵 スパムなし</span>
+      <span class="trust-badge">🚫 クレカ不要</span>
+    </div>
+
+    <div style="background:var(--kbl-white);border:3px solid var(--kbl-black);padding:14px;margin-top:14px;text-align:center;font-size:.79rem;line-height:1.7">
+      <p>⚠️ <strong>注意</strong>：金融商品取引法上、投資の利益は保証できません。株式投資にはリスクが伴います。余剰資金でお取り組みください。本コンテンツは投資手法の学習を目的としています。</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:var(--kbl-black);padding:24px 16px;text-align:center;border-top:5px solid var(--kbl-yellow)">
+  <p style="color:var(--kbl-yellow);font-family:'Dela Gothic One',cursive;font-size:1.2rem;margin-bottom:8px">株タン</p>
+  <p style="color:#777;font-size:.73rem;line-height:1.7">© 2026 株タン All Rights Reserved.<br>本サイトに掲載の情報は教育目的のものです。<br>投資の最終判断はご自身の責任でお願いします。</p>
+  <div style="margin-top:14px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap">
+    <a href="#" style="color:#555;font-size:.73rem;text-decoration:none">特定商取引法に基づく表記</a>
+    <a href="#" style="color:#555;font-size:.73rem;text-decoration:none">プライバシーポリシー</a>
+    <a href="#" style="color:#555;font-size:.73rem;text-decoration:none">お問い合わせ</a>
+  </div>
+</footer>
+
+</div><!-- /.kbl -->
+
+<!-- STICKY CTA -->
+<div class="kbl-sticky" id="kbl-sticky">
+  <a href="#cta">🎁 無料で20大特典を受け取る → 残り <span id="s-days">7</span> 日</a>
+</div>
+
+<script>
+(function(){
+  // ===== COUNTDOWN =====
+  var deadline = new Date();
+  deadline.setDate(deadline.getDate() + 7);
+
+  function pad(n){return String(n).padStart(2,'0')}
+
+  function kblTick(){
+    var diff = deadline - new Date();
+    if(diff <= 0){
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(function(id){
+        var el=document.getElementById(id);if(el)el.textContent='00';
+      });
+      return;
+    }
+    var d=Math.floor(diff/864e5);
+    var h=Math.floor((diff%864e5)/36e5);
+    var m=Math.floor((diff%36e5)/6e4);
+    var s=Math.floor((diff%6e4)/1e3);
+    var el;
+    if((el=document.getElementById('cd-days')))el.textContent=pad(d);
+    if((el=document.getElementById('cd-hours')))el.textContent=pad(h);
+    if((el=document.getElementById('cd-mins')))el.textContent=pad(m);
+    if((el=document.getElementById('cd-secs')))el.textContent=pad(s);
+    if((el=document.getElementById('r-days')))el.textContent=d;
+    if((el=document.getElementById('s-days')))el.textContent=d;
+  }
+  kblTick();
+  setInterval(kblTick, 1000);
+
+  // ===== FAQ =====
+  window.kblToggleFaq = function(el){
+    var wasOpen = el.classList.contains('open');
+    document.querySelectorAll('.kbl .faq-item.open').forEach(function(i){i.classList.remove('open')});
+    if(!wasOpen) el.classList.add('open');
+  };
+
+  // ===== EMAIL FORM =====
+  window.kblFormSubmit = function(e){
+    e.preventDefault();
+    var email = document.getElementById('kbl-email').value.trim();
+    if(!email){ alert('メールアドレスをご入力ください'); return; }
+
+    /* =====================================================
+       WordPressでの実装方法（いずれか選択）:
+       1. Contact Form 7 のショートコードに差し替える
+       2. WPForms / Mailchimp for WP プラグインを使用
+       3. 以下のfetch()をWordPressのREST APIまたはカスタムエンドポイントに向ける
+       ===================================================== */
+
+    var form = document.getElementById('kbl-reg-form');
+    var success = document.getElementById('kbl-success');
+    if(form) form.style.display = 'none';
+    if(success) success.style.display = 'block';
+
+    if(typeof gtag !== 'undefined'){
+      gtag('event','form_submit',{event_category:'LP',event_label:'email_registration'});
+    }
+  };
+
+  // ===== STICKY CTA =====
+  var sticky = document.getElementById('kbl-sticky');
+  if(sticky){
+    window.addEventListener('scroll', function(){
+      sticky.style.display = window.scrollY > 500 ? 'block' : 'none';
+    });
+    sticky.style.display = 'none';
+  }
+
+  // ===== SMOOTH SCROLL =====
+  document.querySelectorAll('.kbl a[href^="#"], .kbl-sticky a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var t = document.querySelector(a.getAttribute('href'));
+      if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
+    });
+  });
+})();
+</script>
