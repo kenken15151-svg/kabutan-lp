@@ -702,10 +702,8 @@
         <p>🎁 20大特典 無料プレゼント登録</p>
       </div>
       <div class="form-body">
-        <form id="kbl-reg-form" method="post" action="https://new-world-vision.com/p/r/y5dmUGEJ" enctype="multipart/form-data" onsubmit="return kblValidate()" novalidate>
+        <form id="kbl-reg-form" method="post" action="https://new-world-vision.com/p/r/y5dmUGEJ" enctype="multipart/form-data" accept-charset="utf-8" onsubmit="return kblValidate()">
           <input type="hidden" name="_method" value="POST">
-          <input type="hidden" name="data[User][referer_form_url]" value="https://new-world-vision.com/p/r/y5dmUGEJ">
-          <input type="hidden" name="data[User][referer_url]" id="kbl-referer-url" value="">
           <input type="text" name="data[User][mail]" id="kbl-email" placeholder="メールアドレスを入力" class="form-input" autocomplete="email">
           <button type="submit" class="form-btn">✨ チャート投資の全手法を今すぐ無料で受け取る ✨</button>
           <p class="form-note">✅ 完全無料&nbsp;&nbsp;✅ いつでも解除可能<br>✅ スパムメールは送りません&nbsp;&nbsp;✅ 1分で完了</p>
@@ -783,9 +781,6 @@
   };
 
   // ===== EMAIL FORM =====
-  var refEl = document.getElementById('kbl-referer-url');
-  if(refEl) refEl.value = window.location.href;
-
   window.kblValidate = function(){
     var email = document.getElementById('kbl-email').value.trim();
     if(!email){ alert('メールアドレスをご入力ください'); return false; }
