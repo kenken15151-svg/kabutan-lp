@@ -207,10 +207,10 @@
   <div style="padding:20px 16px 0;text-align:center">
     <span class="sfx sfx-white" style="font-size:.85rem;letter-spacing:.2em;-webkit-text-stroke:1px var(--kbl-black);margin-bottom:8px">株タン式 チャート分析 完全ロードマップ</span>
     <div style="background:var(--kbl-yellow);border:5px solid var(--kbl-black);box-shadow:8px 8px 0 var(--kbl-black);padding:16px 14px;margin-bottom:12px">
-      <h1 style="font-family:'Noto Sans JP',sans-serif;font-weight:900;font-size:2rem;line-height:1.3;letter-spacing:.03em;margin-bottom:8px">
-        チャートの法則を知れば<br><span style="color:var(--kbl-red)">株式投資の</span><br><span style="color:var(--kbl-red)">見え方が変わる</span>
+      <h1 style="font-family:'Noto Sans JP',sans-serif;font-weight:900;font-size:1.75rem;line-height:1.35;letter-spacing:.03em;margin-bottom:8px">
+        エントリーのたびに<br><span style="color:var(--kbl-red)">「これで合ってるのか」</span><br>と不安なら
       </h1>
-      <p style="font-size:.82rem;font-weight:700;line-height:1.6;color:#333">「<strong>根拠を持ったエントリー</strong>」が身につくチャート分析法を<br><strong style="color:var(--kbl-red)">今すぐ無料で受け取れます</strong></p>
+      <p style="font-size:.85rem;font-weight:700;line-height:1.6;color:#333">チャートで<strong>根拠を持った売買判断</strong>が<br><strong style="color:var(--kbl-red)">できるようになります</strong></p>
     </div>
     <!-- ★ CTA ファーストビュー内に配置 ★ -->
     <div style="padding:0 0 16px">
@@ -702,15 +702,14 @@
         <p>🎁 20大特典 無料プレゼント登録</p>
       </div>
       <div class="form-body">
-        <form id="kbl-reg-form" onsubmit="kblFormSubmit(event)" novalidate>
-          <input type="email" name="email" id="kbl-email" placeholder="メールアドレスを入力" required class="form-input" autocomplete="email">
+        <form id="kbl-reg-form" method="post" action="https://new-world-vision.com/p/r/y5dmUGEJ" enctype="multipart/form-data" onsubmit="return kblValidate()" novalidate>
+          <input type="hidden" name="_method" value="POST">
+          <input type="hidden" name="data[User][referer_form_url]" value="https://new-world-vision.com/p/r/y5dmUGEJ">
+          <input type="hidden" name="data[User][referer_url]" id="kbl-referer-url" value="">
+          <input type="text" name="data[User][mail]" id="kbl-email" placeholder="メールアドレスを入力" class="form-input" autocomplete="email">
           <button type="submit" class="form-btn">✨ チャート投資の全手法を今すぐ無料で受け取る ✨</button>
           <p class="form-note">✅ 完全無料&nbsp;&nbsp;✅ いつでも解除可能<br>✅ スパムメールは送りません&nbsp;&nbsp;✅ 1分で完了</p>
         </form>
-        <div class="form-success" id="kbl-success">
-          <p style="font-size:1.1rem;margin-bottom:8px">🎉 登録ありがとうございます！</p>
-          <p>ご登録のメールアドレスに<br>20大特典のご案内をお送りします。<br>（数分以内に届きます）</p>
-        </div>
       </div>
     </div>
 
@@ -732,9 +731,9 @@
   <p style="color:var(--kbl-yellow);font-family:'Dela Gothic One',cursive;font-size:1.2rem;margin-bottom:8px">株タン</p>
   <p style="color:#777;font-size:.73rem;line-height:1.7">© 2026 株タン All Rights Reserved.<br>本サイトに掲載の情報は教育目的のものです。<br>投資の最終判断はご自身の責任でお願いします。</p>
   <div style="margin-top:14px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap">
-    <a href="#" style="color:#555;font-size:.73rem;text-decoration:none">特定商取引法に基づく表記</a>
-    <a href="#" style="color:#555;font-size:.73rem;text-decoration:none">プライバシーポリシー</a>
-    <a href="#" style="color:#555;font-size:.73rem;text-decoration:none">お問い合わせ</a>
+    <a href="https://skillhack.online/slp/tokusyo/" style="color:#555;font-size:.73rem;text-decoration:none" target="_blank" rel="noopener">特定商取引法に基づく表記</a>
+    <a href="https://skillhack.online/slp/privacy-policy-2/" style="color:#555;font-size:.73rem;text-decoration:none" target="_blank" rel="noopener">プライバシーポリシー</a>
+    <a href="https://skillhack.online/slp/linkup-hp/" style="color:#555;font-size:.73rem;text-decoration:none" target="_blank" rel="noopener">お問い合わせ</a>
   </div>
 </footer>
 
@@ -784,26 +783,13 @@
   };
 
   // ===== EMAIL FORM =====
-  window.kblFormSubmit = function(e){
-    e.preventDefault();
+  var refEl = document.getElementById('kbl-referer-url');
+  if(refEl) refEl.value = window.location.href;
+
+  window.kblValidate = function(){
     var email = document.getElementById('kbl-email').value.trim();
-    if(!email){ alert('メールアドレスをご入力ください'); return; }
-
-    /* =====================================================
-       WordPressでの実装方法（いずれか選択）:
-       1. Contact Form 7 のショートコードに差し替える
-       2. WPForms / Mailchimp for WP プラグインを使用
-       3. 以下のfetch()をWordPressのREST APIまたはカスタムエンドポイントに向ける
-       ===================================================== */
-
-    var form = document.getElementById('kbl-reg-form');
-    var success = document.getElementById('kbl-success');
-    if(form) form.style.display = 'none';
-    if(success) success.style.display = 'block';
-
-    if(typeof gtag !== 'undefined'){
-      gtag('event','form_submit',{event_category:'LP',event_label:'email_registration'});
-    }
+    if(!email){ alert('メールアドレスをご入力ください'); return false; }
+    return true;
   };
 
   // ===== STICKY CTA =====
