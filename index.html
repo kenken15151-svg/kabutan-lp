@@ -701,26 +701,18 @@
       <div class="form-head">
         <p>🎁 20大特典 無料プレゼント登録</p>
       </div>
-      <div class="form-body" style="padding:0;position:relative">
-        <!-- 登録完了メッセージ（フォーム送信後に表示） -->
-        <div id="myasp-success" style="display:none;padding:28px 16px;text-align:center;background:#16a34a;color:#fff;font-weight:700;font-size:1rem;line-height:1.9">
-          ✅ ご登録ありがとうございます！<br><br>📧 <span style="font-size:.9rem;font-weight:400">確認メールをお送りしました。<br>メール内のリンクをクリックすると<br>特典を受け取れます。</span><br><br><span style="font-size:.78rem;font-weight:400;opacity:.85">※迷惑メールフォルダもご確認ください</span>
-        </div>
-        <!-- MyASP iframe（実際のフォームページを埋め込み、タイトル部分をクリップ） -->
-        <div id="myasp-wrap" style="height:380px;overflow:hidden;position:relative">
-          <iframe
-            id="myasp-iframe"
-            src="https://new-world-vision.com/p/r/y5dmUGEJ"
-            frameborder="0"
-            scrolling="no"
-            style="width:100%;height:900px;border:none;display:block;margin-top:-87px"
-            title="メール登録フォーム"
-          ></iframe>
-        </div>
-        <div style="padding:8px 16px 16px">
-          <p class="form-note">✅ 完全無料&nbsp;&nbsp;✅ いつでも解除可能<br>✅ スパムメールは送りません&nbsp;&nbsp;✅ 1分で完了</p>
-          <p class="form-note" style="margin-top:8px;color:#666">※携帯・スマホアドレス・iCloudには届きません。<br>Gmail・Yahoo!メール等でご登録ください。</p>
-        </div>
+      <div class="form-body">
+        <label style="font-size:16px;font-weight:bold;display:block;margin-bottom:8px">※メールアドレスを入力してください</label>
+        <form id="UserItemForm" class="myForm" style="width:100%;box-sizing:border-box" accept-charset="utf-8" action="https://new-world-vision.com/p/r/y5dmUGEJ" enctype="multipart/form-data" method="post">
+          <input name="_method" type="hidden" value="POST" />
+          <div class="input text required">
+            <input id="Usermail" class="required" style="width:100%;border:1px solid #aaa;border-radius:3px;background-color:#fff;box-sizing:border-box;padding:10px;font-size:15px" name="data[User][mail]" type="text" value="" placeholder="メール:" />
+          </div>
+          <div class="form_input_submit" style="display:flex;flex-direction:column;align-items:center;background:radial-gradient(circle,rgba(238,238,238,1) 0%,rgba(221,221,221,1) 80%,rgba(221,221,221,1) 100%);padding:5px 8px;border-radius:8px;margin-top:0">
+            <input style="width:100%;text-align:center;font-size:24px;font-weight:bold;color:#fff;background:linear-gradient(0deg,rgba(204,0,0,0.7) 0%,rgba(204,0,0,1) 60%,rgba(204,0,0,0.6) 100%);border:5px solid #cc0000;border-radius:5px;text-shadow:0 0 10px #000;box-sizing:border-box;white-space:normal;padding:10px;cursor:pointer" type="submit" value="無料で今すぐ受け取る！" />
+            <label style="font-size:12px;font-weight:bold;text-align:left;margin-top:10px;line-height:16px">※ドコモやなど携帯・スマホのアドレス、iCloudのアドレスには無料プレゼントが届きません。 普段お使いのPCメールアドレスかGmailやYahoo!メールなどでご登録ください。</label>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -809,19 +801,5 @@
       if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
     });
   });
-
-  // ===== MYASP IFRAME: フォーム送信後の成功検知 =====
-  (function(){
-    var iframe = document.getElementById('myasp-iframe');
-    if(!iframe) return;
-    var firstLoad = true;
-    iframe.addEventListener('load', function(){
-      if(firstLoad){ firstLoad = false; return; }
-      var wrap = document.getElementById('myasp-wrap');
-      var success = document.getElementById('myasp-success');
-      if(wrap) wrap.style.display = 'none';
-      if(success) success.style.display = 'block';
-    });
-  })();
 })();
 </script>
